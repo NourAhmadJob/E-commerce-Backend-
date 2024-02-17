@@ -10,7 +10,7 @@ const {
 categoryRoute
   .route("/")
   .get(categoryController.getAllCategory)
-  .post(createCategoryValidator, categoryController.createCategory);
+  .post(categoryController.uploadCategoryImage,createCategoryValidator, categoryController.createCategory);
 
 categoryRoute
   .route("/:id")
