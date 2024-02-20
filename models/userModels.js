@@ -1,48 +1,37 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const validator = require('validator');
+const mongoose = require("mongoose");
 
-
-const userSchema = new mongoose.Schema({
-
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
     email: {
-        type: String,
-        required: [true, "Please enter an email"], 
-        unique: true, 
-        lowecase: true,
-        validate : [validator.isEmail , "Please enter a valid email"]
-    }, 
-    role: {
-        type: String, 
-        emum: ['user', 'guide', 'lead-guide', 'admin'],
-        default : 'user'
+      type: String,
+      required: [true, "Email is required"],
+      unique: [true, "Email is already exists"],
+      lowercase: true,
     },
     password: {
-        type: String,
-        required: [true, "Please enter a password"],
-        minlength : [6 , "Minimum password lenght is 6 characters"]
-    }, 
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [6, "Password must be at least 6 characters"],
+    },
+    phone: String,
+    profileImage: String,
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  { timestamps: true }
+);
 
-    passwordChangedAt : Date
-})
-
-userSchema.pre("save", async function (next) { 
-    
-    const salt = await bcrypt.genSalt()
-    this.password = await bcrypt.hash(this.password, salt)
-        
-    next();
-})
-
-userSchema.methods.changedPassword = (JWTTimestamp) => { 
-    
-    if (this.passwordChangedAt) { 
-        console.log(this.passwordChangedAt , JWTTimestamp)
-    }
-    // NO changed password 
-    return false;
-}
-
-const User = new mongoose.model('user', userSchema);
+const User = mongoose.model("Users", userSchema);
 
 module.exports = User;

@@ -1,10 +1,10 @@
-const { check } = require("express-validator");
+const { check , body } = require("express-validator");
 const validatorMiddleware = require("./../../middleware/validatorMiddleware");
 const Category = require("./../../models/categoryModel");
 const SubCategory = require("./../../models/subCategoryModel");
 
 exports.createProductValidator = [
-  check("title")
+  check('title')
     .notEmpty()
     .withMessage("Title prodcut must be required")
     .isLength({ min: 3 })
@@ -85,7 +85,7 @@ exports.createProductValidator = [
         subcategories.forEach((subcategory) => {
           subCategoriesIdInDB.push(subcategory._id.toString());
         });
-        const checker = (target , arr) =>  target.every((v) => arr.includes(v))
+        const checker = (target, arr) => target.every((v) => arr.includes(v));
         if (!subcategoryId.every((v) => subCategoriesIdInDB.includes(v))) {
           return Promise.reject(
             new Error("subcategories not belong to category")

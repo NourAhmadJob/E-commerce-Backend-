@@ -1,15 +1,22 @@
-const express = require('express');
+const express = require("express");
 const userRoute = express.Router();
-const userController = require('./../controller/userController') 
+const userController = require("./../controller/userController");
+const {
+  createUserValidator,
+  getUserValidator,
+  updateUserValidator,
+  deleteUserValidator,
+} = require("../utils/validator/userValidator");
 
-userRoute.post('/register', userController.signup)
+userRoute
+  .route("/")
+  .post(createUserValidator, userController.createUser)
+  .get(userController.getAllUser);
 
-userRoute.post('/login', userController.login)
+userRoute
+  .route("/:id")
+  .get(getUserValidator, userController.getUser)
+  .put(updateUserValidator, userController.updateUser)
+  .delete(deleteUserValidator, userController.deleteUser);
 
-// userRoute.post('/forgotPassword', userController.forgetPassword)
-
-userRoute.post('/resetPassword' , userController.resetPassword)
-
-userRoute.route('/').get( userController.protects,userController.restrictTo("admin"-"lead-guide"),userController.getAllUser)
-
-module.exports = userRoute; 
+module.exports = userRoute;

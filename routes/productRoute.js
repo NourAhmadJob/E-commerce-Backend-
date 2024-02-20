@@ -10,7 +10,7 @@ const {
 
 productRoute
   .route("/")
-  .post(createProductValidator, productController.createProduct)
+  .post(createProductValidator, productController.uploadProductImage,productController.createProduct)
   .get(productController.getAllProduct);
 
 productRoute

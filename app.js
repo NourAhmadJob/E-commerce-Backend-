@@ -1,3 +1,5 @@
+const path = require("path");
+
 const express = require("express");
 const app = express();
 const userRoute = require("./routes/userRoute");
@@ -6,12 +8,12 @@ const ApiError = require("./utils/apiError");
 const globalError = require("./middleware/errorMiddleware");
 const subCategoryRoute = require("./routes/subCategoryRoute");
 const productRoute = require("./routes/productRoute");
-app.use(express.json());
 
 // MIDDLEWARE
-
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "uploads")));
 // Routes
-app.use("/api/user", userRoute);
+app.use("/api/users", userRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/subCategory", subCategoryRoute);
 app.use("/api/product", productRoute);

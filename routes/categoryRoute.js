@@ -7,10 +7,17 @@ const {
   deleteCategoryValidator,
 } = require("./../utils/validator/categoryValidator");
 
+
+
 categoryRoute
   .route("/")
   .get(categoryController.getAllCategory)
-  .post(categoryController.uploadCategoryImage,createCategoryValidator, categoryController.createCategory);
+  .post(
+    categoryController.uploadCategoryImage,
+    categoryController.resizeImage,
+    createCategoryValidator,
+    categoryController.createCategory
+  );
 
 categoryRoute
   .route("/:id")
