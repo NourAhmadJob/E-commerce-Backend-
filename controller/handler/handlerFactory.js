@@ -41,37 +41,40 @@ exports.updateOne = (Model, smallModel) =>
       document,
     });
   });
-exports.createOne = Model => asynchandler(async (req, res, next) => {
-  const newDocument = await Model.create(req.body);
+exports.createOne = (Model) =>
+  asynchandler(async (req, res, next) => {
+    const newDocument = await Model.create(req.body);
 
-  res.status(201).json({
-    status: "success",
-    data: newDocument,
+    res.status(201).json({
+      status: "success",
+      data: newDocument,
+    });
   });
-});
 
-exports.getOne = Model => asynchandler(async (req, res, next) => {
-  const document = await Model.findById({ _id: req.params.id });
-  if (!document) {
-    return next(new ApiError(`Not Found document with this id ${id}`, 404));
-  }
-  res.status(200).json({
-    status: "success",
-    document,
+exports.getOne = (Model) =>
+  asynchandler(async (req, res, next) => {
+    const document = await Model.findById({ _id: req.params.id });
+    if (!document) {
+      return next(new ApiError(`Not Found document with this id ${id}`, 404));
+    }
+    res.status(200).json({
+      status: "success",
+      document,
+    });
   });
-});
 
-exports.getAll = Model => asynchandler(async (req, res, next) => {
-  const apiFeatures = new ApiFeatures(Model.find(), req.query)
-    .sort()
-    .filter()
-    .fieldsLimit()
-    .search();
-  const document = await apiFeatures.mongooseQuery;
+exports.getAll = (Model) =>
+  asynchandler(async (req, res, next) => {
+    const apiFeatures = new ApiFeatures(Model.find(), req.query)
+      .sort()
+      .filter()
+      .fieldsLimit()
+      .search();
+    const document = await apiFeatures.mongooseQuery;
 
-  res.status(200).json({
-    status: "success",
-    result: document.length,
-    document,
+    res.status(200).json({
+      status: "success",
+      result: document.length,
+      document,
+    });
   });
-})

@@ -7,12 +7,14 @@ const {
   deleteCategoryValidator,
 } = require("./../utils/validator/categoryValidator");
 
-
+const authController = require('./../controller/authController');
 
 categoryRoute
   .route("/")
   .get(categoryController.getAllCategory)
   .post(
+    authController.protect,
+    authController.allowedTo('manager' , 'admin'),
     categoryController.uploadCategoryImage,
     categoryController.resizeImage,
     createCategoryValidator,

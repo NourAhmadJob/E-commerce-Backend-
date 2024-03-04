@@ -2,21 +2,25 @@ const path = require("path");
 
 const express = require("express");
 const app = express();
+const authRoute = require('./routes/authRoute');
 const userRoute = require("./routes/userRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const ApiError = require("./utils/apiError");
 const globalError = require("./middleware/errorMiddleware");
 const subCategoryRoute = require("./routes/subCategoryRoute");
 const productRoute = require("./routes/productRoute");
+const reviewRoute = require('./routes/reviewsRoute');
 
 // MIDDLEWARE
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "uploads")));
 // Routes
+app.use("/api/auth" , authRoute)
 app.use("/api/users", userRoute);
 app.use("/api/category", categoryRoute);
 app.use("/api/subCategory", subCategoryRoute);
 app.use("/api/product", productRoute);
+app.use("/api/review", reviewRoute);
 
 app.all("*", (req, res, next) => {
   //Create error and send it to error handling middleware
