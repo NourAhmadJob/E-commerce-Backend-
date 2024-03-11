@@ -1,3 +1,4 @@
+const authController = require('./authController');
 const Review = require("./../models/reviewModel");
 const handler = require("./handler/handlerFactory");
 

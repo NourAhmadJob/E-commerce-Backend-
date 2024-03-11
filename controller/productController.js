@@ -32,11 +32,9 @@ exports.resizedProductImage = asynchandler(async (req, res, next) => {
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
       .toFile(`uploads/products/${imageCoverFileName}`);
- 
     // Save image into our db
     req.body.imageCover = imageCoverFileName;
   }
-
 });
 
 exports.createProduct = handler.createOne(Product);
